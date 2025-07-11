@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Tambah Mobil{% endblock %}
+{% block content %}
+<h2>Tambah Mobil</h2>
+<form method="POST">
+    <input type="text" name="brand" placeholder="Merk Mobil" required>
+    <input type="text" name="model" placeholder="Model Mobil" required>
+    <input type="submit" value="Tambah">
+</form>
+{% endblock %}

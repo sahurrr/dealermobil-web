@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gambar Vertikal</title>
+  <style>
+    <div class="car-card">
+  <img src="path_to_image" class="car-image" alt="Mobil">
+  <div class="car-info">
+    <div class="car-title">Ford Mustang</div>
+    <div class="car-year">1965</div>
+  </div>
+</div>
+  </style>
+</head>
+<body>
+  <h1>Gambar Tampil Vertikal</h1>
+  <div class="gambar-container">
+    <img src="{{ url_for('static', filename='img/porce.webp') }}" alt="Gambar 1" />
+    <img src="{{ url_for('static', filename='img/rollsroyce.jpg') }}" alt="Gambar 2" />
+    <img src="{{ url_for('static', filename='img/minicooper.jpg') }}" alt="Gambar 3" />
+  </div>
+</body>
+</html>

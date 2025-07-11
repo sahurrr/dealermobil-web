@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Keranjang Belanja</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Keranjang Belanja</h1>
+
+    {% if cart_items %}
+        <ul>
+            {% for item in cart_items %}
+                <li>{{ item.name }} ({{ item.year }})</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Formulir Pembelian</h2>
+        <form action="{{ url_for('checkout') }}" method="POST">
+            <label>Nama Pembeli:</label><br>
+            <input type="text" name="buyer_name" required><br><br>
+
+            <label>No. HP:</label><br>
+            <input type="text" name="buyer_phone" required><br><br>
+
+            <button type="submit">Checkout</button>
+        </form>
+    {% else %}
+        <p>Keranjang kosong.</p>
+    {% endif %}
+
+    <br>
+    <a href="{{ url_for('home') }}">Kembali ke Beranda</a>
+</body>
+</html>

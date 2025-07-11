@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Mobil</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .car-item {
+            text-align: center;
+            max-width: 400px;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .car-name {
+            margin-top: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .car-year {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .car-gallery {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='img/dealer1.jpg') }}" class="img-fluid" height="500" width="1550" alt="Gambar Beranda" />
+    <header><h1>Daftar Mobil</h1></header>
+
+    <header><h1>Mobil Klasik</h1></header>
+    <div class="car-gallery">
+        {% for img, name, year in [
+            ('klasik.jpg', 'Ford Mustang', '1965'),
+            ('klasik2.jpg', 'Duesenberg SJ', '1933'),
+            ('klasik3.jpg', 'GAZ-13 Chaika', '1959'),
+            ('klasik4.jpg', 'Dodge Charger', '1969'),
+            ('klasiik5.jpg', 'Nissan Fairlady Z', '1970'),
+            ('klasik6.jpg', 'Subaru 360', '1961')] %}
+        <div class="car-item">
+            <img src="{{ url_for('static', filename='img/' ~ img) }}" class="car-img" alt="{{ name }}"
+                 onclick="openModal('{{ name }}', '{{ year }}', '{{ descriptions[name] }}')">
+            <p class="car-name">{{ name }}</p>
+            <p class="car-year">{{ year }}</p>
+
+            <button onclick="showBuyForm('{{ name }}', '{{ year }}')">Beli</button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <header><h1>DEALER NFA</h1></header>
+    <footer>
+        <p>&copy; 2025 NFA Dealer. All rights reserved.</p>
+    </footer>
+
+    <!-- Modal Review Mobil -->
+    <div id="carModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <p id="modalDescription"></p>
+        </div>
+    </div>
+
+    <!-- Modal Form Pembelian -->
+    <div id="buyModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeBuyModal()">&times;</span>
+            <h2>Beli Mobil: <span id="buyCarName"></span></h2>
+            <form onsubmit="submitPurchase(event)">
+                <input type="hidden" id="buyCarInput">
+                <input type="hidden" id="buyCarYear">
+                <label>Nama Pembeli:</label><br>
+                <input type="text" id="buyerName" required><br><br>
+                <label>No. HP:</label><br>
+                <input type="text" id="buyerPhone" required><br><br>
+                <button type="submit">Kirim</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+    function openModal(name, year, description) {
+        document.getElementById("modalTitle").innerText = name + " (" + year + ")";
+        document.getElementById("modalDescription").innerText = description;
+        document.getElementById("carModal").style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById("carModal").style.display = "none";
+    }
+
+    function showBuyForm(name, year) {
+        document.getElementById("buyCarName").innerText = name;
+        document.getElementById("buyCarInput").value = name;
+        document.getElementById("buyCarYear").value = year;
+        document.getElementById("buyModal").style.display = "block";
+    }
+
+    function closeBuyModal() {
+        document.getElementById("buyModal").style.display = "none";
+    }
+
+    function submitPurchase(event) {
+        event.preventDefault();
+        const name = document.getElementById("buyerName").value;
+        const phone = document.getElementById("buyerPhone").value;
+        const car = document.getElementById("buyCarInput").value;
+        const year = document.getElementById("buyCarYear").value;
+
+        fetch("/buy", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, phone, car, year })
+        }).then(res => {
+            alert("Pembelian berhasil!");
+            closeBuyModal();
+        });
+    }
+
+    window.onclick = function(event) {
+        if (event.target === document.getElementById("carModal")) closeModal();
+        if (event.target === document.getElementById("buyModal")) closeBuyModal();
+    };
+    </script>
+</body>
+</html>
