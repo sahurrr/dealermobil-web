@@ -1,7 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 
-app = Flask(__name__)
+from flask import Flask
+app = Flask(__name__)  # <--- HARUS ADA INI
+
+# route dan konfigurasi lainnya...
+
 app.secret_key = 'secret_key'  # Penting untuk session
 
 # ------------------------ KONEKSI DB ------------------------
