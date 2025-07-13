@@ -4,13 +4,25 @@
   <meta charset="UTF-8" />
   <title>Gambar Vertikal</title>
   <style>
-    <div class="car-card">
-  <img src="path_to_image" class="car-image" alt="Mobil">
-  <div class="car-info">
-    <div class="car-title">Ford Mustang</div>
-    <div class="car-year">1965</div>
-  </div>
-</div>
+    .gambar-container {
+      display: flex;
+      flex-direction: column; /* Agar vertikal */
+      align-items: center;    /* Tengah secara horizontal */
+      gap: 20px;              /* Jarak antar gambar */
+      margin-top: 20px;
+    }
+
+    .gambar-container img {
+      width: 300px;           /* Ukuran gambar */
+      height: auto;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
